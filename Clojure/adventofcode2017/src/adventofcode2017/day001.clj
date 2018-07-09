@@ -1,4 +1,5 @@
-(ns adventofcode2017.day001)
+(ns adventofcode2017.day001
+	(:require [adventofcode2017.core :as core]))
 
 
 ;; --- Day 1: Inverse Captcha ---
@@ -28,11 +29,6 @@
 	""
 	[coll]
 	(map (fn [x] (first x)) coll))
-
-(defn add-all-elements-in-map
-	""
-	[coll]
-	(reduce + coll))
 
 (defn inverse-captcha-part1
 	""
