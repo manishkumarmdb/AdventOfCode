@@ -1,11 +1,17 @@
-(ns adventofcode2017.day010)
+(ns adventofcode2017.day010
+	(:require [adventofcode2017.core :as core]))
 
 
 ;; --- Day 10: Knot Hash ---
 ;;===========================
 ;; part 1
 
-(def input-lengths-list [147 37 249 1 31 2 226 0 161 71 254 243 183 255 30 70])
+;;(def input-lengths-list [147 37 249 1 31 2 226 0 161 71 254 243 183 255 30 70])
+
+(defn input-lengths
+	""
+	[input]
+	(mapv (fn [x] (Integer/parseInt x)) (clojure.string/split input #",")))
 
 (defn rotate-coll-by-n-range 
 	""
@@ -25,8 +31,7 @@
 	[
 	(+ pos skip length) 
 	(inc skip) 
-	(->>
-		coll
+	(->> coll
 		(rotate-coll-by-n-range pos)
 		(reverse-range-of-coll length)
 		(rotate-coll-by-n-range (- pos)))])
@@ -34,17 +39,18 @@
 
 (defn get-final-coll
 	""
-	[coll input-lengths]
+	[coll input]
 	(last 
 		(reduce 
-			binding-knot-hash [0 0 coll] input-lengths)))
+			binding-knot-hash [0 0 coll] input)))
 
 
 (defn knot-hash-part1 
 	""
-	[coll input-lengths]
+	[coll input]
 	(let 
-		[coll (get-final-coll coll input-lengths)]
+		[input (input-lengths input)
+		coll (get-final-coll coll input)]
 		(* (first coll) (second coll))))
 
 
@@ -52,8 +58,7 @@
 ;; part 2
 
 (defn knot-hash-part2 [coll input]
-  (->>
-  	input
+  (->> input
   	(map int)
   	(#(concat % [17, 31, 73, 47, 23]))
   	(repeat 64)
